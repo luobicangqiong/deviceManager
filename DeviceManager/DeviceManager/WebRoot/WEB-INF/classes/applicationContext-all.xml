@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="customDAOImpl" class="com.soft.daoimpl.CustomDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="empDAOImpl" class="com.soft.daoimpl.EmpDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="beijianDAOImpl" class="com.soft.daoimpl.BeijianDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="beijianApplyDAOImpl" class="com.soft.daoimpl.BeijianApplyDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="repairDAOImpl" class="com.soft.daoimpl.RepairDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="moduleDAOImpl" class="com.soft.daoimpl.ModuleDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="BeijianApplyDAOImpl" class="com.soft.daoimpl.BeijianApplyDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+   <bean id="reportRepairDAOImpl" class="com.soft.daoimpl.ReportRepairDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="deviceDAOImpl" class="com.soft.daoimpl.DeviceDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="deviceRecorderDAOImpl" class="com.soft.daoimpl.DeviceRecorderDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id = "empInfoDAOImpl" class="com.soft.daoimpl.EmpInfoDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id = "deviceLendDAOImpl" class = "com.soft.daoimpl.DeviceLendDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<bean id="keFuGuanLiServiceImpl" class="com.soft.serviceimpl.KeFuGuanLiServiceImpl">
+		<property name="customDAO" ref="customDAOImpl"></property>
+		<property name="reportRepairDAO" ref="reportRepairDAOImpl"></property>
+	</bean>
+	<bean id="kuFangGuanLiServiceImpl" class="com.soft.serviceimpl.KuFangGuanLiServiceImpl">
+		<property name="beijianDAO" ref="beijianDAOImpl"></property>
+		<property name="beijianApplyDAO" ref="BeijianApplyDAOImpl"></property>
+	</bean>
+
+	<bean id="weiXiuGuanLiServiceImpl" class="com.soft.serviceimpl.WeiXiuGuanLiServiceImpl">
+		<property name="repairDAO" ref="repairDAOImpl"></property>
+		<property name="beijianApplyDAO" ref="beijianApplyDAOImpl"></property>
+		<property name="reportRepairDAO" ref="reportRepairDAOImpl"></property>
+		<property name="customDAO" ref="customDAOImpl"></property>
+	</bean>
+
+	<bean id="loginServiceImpl" class="com.soft.serviceimpl.LoginServiceImpl">
+		<property name="moduleDAO" ref="moduleDAOImpl"></property>
+		<property name="empDAO" ref="empDAOImpl"></property>
+	</bean>
+
+    <bean id="diaoDuGuanLiServiceImpl" class="com.soft.serviceimpl.DiaoDuGuanLiServiceImpl">
+     <property name="repairDAO" ref="repairDAOImpl"></property>
+		<property name="reportRepairDAO" ref="reportRepairDAOImpl"></property>
+	</bean>
+	<bean id="deviceServiceImpl" class="com.soft.serviceimpl.DeviceServiceImpl">
+      	<property name="deviceDAO" ref="deviceDAOImpl"></property>
+	</bean>
+	<bean id="deviceRecorderServiceImpl" class="com.soft.serviceimpl.DeviceRecorderServiceImpl">
+      	<property name="deviceRecorderDAO" ref="deviceRecorderDAOImpl"></property>
+	</bean>
+	<bean id="empInfoServiceImpl" class="com.soft.serviceimpl.EmpInfoServiceImpl">
+      	<property name="empInfoDAO" ref="empInfoDAOImpl"></property>
+	</bean>
+	<bean id="deviceLendServiceImpl" class="com.soft.serviceimpl.DeviceLendServiceImpl">
+      	<property name="deviceLendDAO" ref="deviceLendDAOImpl"></property>
+	</bean>
+
+
+
+	<bean id="keFuAction" class="com.soft.action.KeFuAction" scope="prototype">
+		<property name="keFuGuanLiService" ref="keFuGuanLiServiceImpl"></property>
+	</bean>
+
+	<bean id="kuFangAction" class="com.soft.action.KuFangAction" scope="prototype">
+		<property name="kuFangGuanLiService" ref="kuFangGuanLiServiceImpl"></property>
+	</bean>
+	
+	<bean id="weiXiuAction" class="com.soft.action.WeiXiuAction" scope="prototype">
+		<property name="weiXiuGuanLiService" ref="weiXiuGuanLiServiceImpl"></property>
+	</bean>
+
+	<bean id="loginAction" class="com.soft.action.LoginAction" scope="prototype">
+		<property name="loginService" ref="loginServiceImpl"></property>
+	</bean>
+	<bean id="diaoDuAction" class="com.soft.action.DiaoDuAction">
+		<property name="diaoDuGuanLiService" ref="diaoDuGuanLiServiceImpl"></property>
+	</bean>
+	<bean id="deviceAction" class="com.soft.action.DeviceAction">
+		<property name="deviceService" ref="deviceServiceImpl"></property>
+	</bean>
+	<bean id="deviceRecorderAction" class="com.soft.action.DeviceRecorderAction">
+		<property name="deviceRecorderService" ref="deviceRecorderServiceImpl"></property>
+	</bean>    
+	<bean id="deviceBorrowAction" class="com.soft.action.DeviceBorrowAction">
+		<property name="deviceRecorderService" ref="deviceRecorderServiceImpl"></property>
+		<property name="deviceLendService" ref="deviceLendServiceImpl"></property>
+		<property name="deviceService" ref="deviceServiceImpl"></property>
+		<property name="empInfoService" ref="empInfoServiceImpl"></property>
+	</bean> 
+	
+	<bean id="adminBorrowManagerAction" class="com.soft.action.AdminBorrowManagerAction">
+		<property name="deviceRecorderService" ref="deviceRecorderServiceImpl"></property>
+		<property name="deviceLendService" ref="deviceLendServiceImpl"></property>
+		<property name="deviceService" ref="deviceServiceImpl"></property>
+	</bean>   
+	
+	<bean id="deviceRepairAction" class="com.soft.action.DeviceRepairAction">
+		<property name="deviceService" ref="deviceServiceImpl"></property>
+	</bean>
+</beans>

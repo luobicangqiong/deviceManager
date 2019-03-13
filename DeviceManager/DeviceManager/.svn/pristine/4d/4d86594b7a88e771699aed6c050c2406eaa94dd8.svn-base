@@ -1,0 +1,18 @@
+package com.soft.service;
+
+import java.util.List;
+
+import com.soft.model.BeiJian;
+
+public interface IBeijianService {
+	
+	public boolean addBeiJian(BeiJian beijian);
+	                                                                                                                                              
+	public void deleteBeiJian(BeiJian beijian);
+	
+	public void updateBeiJian(BeiJian beijian);
+	
+    public boolean findBeiJian(BeiJian beijian);
+
+
+}

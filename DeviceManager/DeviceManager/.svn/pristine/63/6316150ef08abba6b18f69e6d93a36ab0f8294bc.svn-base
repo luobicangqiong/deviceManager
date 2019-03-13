@@ -1,0 +1,396 @@
+package com.soft.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.BeiJian;
+import com.soft.model.BeijianApply;
+import com.soft.model.Custom;
+import com.soft.service.KuFangGuanLiService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+public class KuFangAction extends ActionSupport{
+
+	
+	private BeiJian beijian;
+	private BeijianApply beijianApply;
+	private KuFangGuanLiService kuFangGuanLiService;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private static final long serialVersionUID = 1L;
+	
+	 public BeiJian getBeijian() {
+			return beijian;
+		}
+		public void setBeijian(BeiJian beijian) {
+			this.beijian = beijian;
+		}
+		public KuFangGuanLiService getKuFangGuanLiService() {
+			return kuFangGuanLiService;
+		}
+		public void setKuFangGuanLiService(KuFangGuanLiService kuFangGuanLiService) {
+			this.kuFangGuanLiService = kuFangGuanLiService;
+		}
+		
+		public void setServletResponse(HttpServletResponse response) {
+			this.response = response;
+			
+		}
+		public void setServletRequest(HttpServletRequest request) {
+			this.request = request;
+		}
+		
+	/*
+	 * 添加备件
+	 */
+	
+	public void addBeijian(BeiJian beijian){
+		
+		boolean flag=kuFangGuanLiService.addBeijian(beijian);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("修改成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	/*
+	 * 
+	 * 删除备件信息
+	 */
+	public void deleteBeijian(){
+		
+		kuFangGuanLiService.deleteBeijian(beijian);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("删除成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	/*
+	 * 修改备件信息
+	 */
+	
+    public void editBeijian(){
+		
+    	kuFangGuanLiService.editBeijian(beijian);
+    	response.setContentType("text/html;charset=UTF-8");
+    	try {
+			response.getWriter().write("修改成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    /*
+     * 查询所有并分页
+     */
+    public String queryBeijianAll(){
+    	
+    	int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianList = kuFangGuanLiService.queryBeijianAll((pageNum-1)*pageSize,pageSize);
+    	if(beijianList.size()>0)
+    	{
+    		request.setAttribute("modulesList", beijianList);
+    	}else{
+    		request.setAttribute("modulesList", "");
+    	}
+    	
+    	Iterator iterator = beijianList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", kuFangGuanLiService.countAll());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		BeiJian beijian = (BeiJian)iterator.next();
+    		obj.put("beijian.beijianId", beijian.getBeijianId());
+    		obj.put("beijian.beijianName", beijian.getBeijianName());
+    		obj.put("beijian.beijianVersion", beijian.getBeijianVersion());
+    		obj.put("beijian.beijianPrice", beijian.getBeijianPrice());
+    		obj.put("beijian.beijianNumber", beijian.getBeijianNumber());
+    		obj.put("beijian.warnNumber", beijian.getWarnNumber());
+    		obj.put("beijian.beijianState", beijian.getBeijianState());
+    		
+    		jsonArray.add(obj);
+    	}
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+    		
+	}
+   
+	/*
+     * 按条件查询所有并分页
+     */
+    public String queryBeijianBy(){
+		
+    	int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianList = kuFangGuanLiService.queryBeijianBy((pageNum-1)*pageSize,pageSize);
+    	if(beijianList.size()>0)
+    	{
+    		request.setAttribute("modulesList", beijianList);
+    	}else{
+    		request.setAttribute("modulesList", "");
+    	}
+    	
+    	Iterator iterator = beijianList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", kuFangGuanLiService.countAll());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		BeiJian beijian = (BeiJian)iterator.next();
+    		obj.put("beijian.beijianId", beijian.getBeijianId());
+    		obj.put("beijian.beijianName", beijian.getBeijianName());
+    		obj.put("beijian.beijianVersion", beijian.getBeijianVersion());
+    		obj.put("beijian.beijianPrice", beijian.getBeijianPrice());
+    		obj.put("beijian.beijianNumber", beijian.getBeijianNumber());
+    		obj.put("beijian.warnNumber", beijian.getWarnNumber());
+    		obj.put("beijian.beijianState", beijian.getBeijianState());
+    		
+    		jsonArray.add(obj);
+    	}
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+	}
+    /*
+     * 查询所有申请并分页，列出待审批的所有备件申请
+     */
+    public String queryApplyAll(){
+    	
+    	int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianApplyList = kuFangGuanLiService.queryApplyAll((pageNum-1)*pageSize,pageSize);
+    	if(beijianApplyList.size()>0)
+    	{
+    		request.setAttribute("modulesList", beijianApplyList);
+    	}else{
+    		request.setAttribute("modulesList", "");
+    	}
+    	
+    	Iterator iterator = beijianApplyList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", kuFangGuanLiService.countAll());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		BeijianApply beijianApply = (BeijianApply)iterator.next();
+    		obj.put("beijianApply.applyId", beijianApply.getApplyId());
+    		obj.put("beijianApply.beijianName", beijianApply.getBeijianName());
+    		obj.put("beijianApply.beijianNumber", beijianApply.getBeijianNumber());
+    		obj.put("beijianApply.beijianPrice", beijianApply.getBeijianPrice());
+    		obj.put("beijianApply.applyTime", beijianApply.getApplyTime());
+    		obj.put("beijianApply.applyPassTime", beijianApply.getApplyPassTime());
+    		obj.put("beijianApply.applyManId", beijianApply.getApplyManId());
+    		obj.put("beijianApply.applyPassManId", beijianApply.getApplyPassManId());
+    		obj.put("beijianApply.beijianId", beijianApply.getBeijianId());
+    		obj.put("beijianApply.beijianVersion", beijianApply.getBeijianVersion());
+    		
+    		jsonArray.add(obj);
+    	}
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+    		
+    	
+	}
+    /*
+     * 审批申请
+     * 修改设备申请表
+     * 申请结果
+     */
+    public void passApply(){
+    		
+    	kuFangGuanLiService.passApply(beijianApply);
+
+    	response.setContentType("text/html;charset=UTF-8");
+    	try {
+    		response.getWriter().write("editok");
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+	}
+    /*
+     *当库管批准申请是，可以查看所要分配的备件库存情况，根据备件id查备件表
+     */
+    public String queryApplyBy(){
+    	
+    	int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianList = kuFangGuanLiService.queryApplyBy((pageNum-1)*pageSize,pageSize);
+    	if(beijianList.size()>0)
+    	{
+    		request.setAttribute("modulesList", beijianList);
+    	}else{
+    		request.setAttribute("modulesList", "");
+    	}
+    	
+    	Iterator iterator = beijianList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", kuFangGuanLiService.countAll());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		BeiJian beijian = (BeiJian)iterator.next();
+    		obj.put("beijian.beijianId", beijian.getBeijianId());
+    		obj.put("beijian.beijianName", beijian.getBeijianName());
+    		obj.put("beijian.beijianVersion", beijian.getBeijianVersion());
+    		obj.put("beijian.beijianPrice", beijian.getBeijianPrice());
+    		obj.put("beijian.beijianNumber", beijian.getBeijianNumber());
+    		obj.put("beijian.warnNumber", beijian.getWarnNumber());
+    		obj.put("beijian.beijianState", beijian.getBeijianState());
+    		
+    		jsonArray.add(obj);
+    	}
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+    	
+    	
+    }
+    /*
+     * 查看设备流水，列出备件出库情况，从备件申请表查询
+     */
+    public String queryApplyComplete(){
+    	
+    	int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianApplyList = kuFangGuanLiService.queryApplyComplete((pageNum-1)*pageSize,pageSize);
+    	if(beijianApplyList.size()>0)
+    	{
+    		request.setAttribute("modulesList", beijianApplyList);
+    	}else{
+    		request.setAttribute("modulesList", "");
+    	}
+    	
+    	Iterator iterator = beijianApplyList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", kuFangGuanLiService.countAll());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		BeijianApply beijianApply = (BeijianApply)iterator.next();
+    		obj.put("beijianApply.applyId", beijianApply.getApplyId());
+    		obj.put("beijianApply.beijianName", beijianApply.getBeijianName());
+    		obj.put("beijianApply.beijianNumber", beijianApply.getBeijianNumber());
+    		obj.put("beijianApply.beijianPrice", beijianApply.getBeijianPrice());
+    		obj.put("beijianApply.applyTime", beijianApply.getApplyTime());
+    		obj.put("beijianApply.applyPassTime", beijianApply.getApplyPassTime());
+    		obj.put("beijianApply.applyManId", beijianApply.getApplyManId());
+    		obj.put("beijianApply.applyPassManId", beijianApply.getApplyPassManId());
+    		obj.put("beijianApply.beijianId", beijianApply.getBeijianId());
+    		obj.put("beijianApply.beijianVersion", beijianApply.getBeijianVersion());
+    		
+    		jsonArray.add(obj);
+    	}
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+    	
+    }
+}

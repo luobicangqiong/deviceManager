@@ -1,0 +1,75 @@
+package com.soft.test;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.Manager;
+import com.soft.service.ManagerService;
+
+public class ManagerAction extends ActionSupport {
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Manager manager;
+	
+	 private   ManagerService managerServiceImpl;
+	 private String mark=null;
+	
+	
+	public String findAccount(){
+		
+		boolean flag=managerServiceImpl.findByAccount(manager.getManagerAccount());
+		
+		if(!flag){
+			mark="error";
+		return "acountError";
+		}
+		return "none";
+		
+		
+	}
+	public String find(){
+		
+		boolean flag=managerServiceImpl.findManager(manager);
+		if(flag){
+			
+			ActionContext.getContext().getSession().put("account", manager.getManagerAccount());
+			return "success";
+			
+			
+		}
+		
+		return "passwordError";
+		
+		
+	}
+	
+	
+	public Manager getManager() {
+		return manager;
+	}
+
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+
+	public ManagerService getManagerServiceImpl() {
+		return managerServiceImpl;
+	}
+
+
+	public void setManagerServiceImpl(ManagerService managerServiceImpl) {
+		this.managerServiceImpl = managerServiceImpl;
+	}
+
+
+	
+	
+	
+
+}

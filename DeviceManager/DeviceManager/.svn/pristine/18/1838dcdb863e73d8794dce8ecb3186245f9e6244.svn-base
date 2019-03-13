@@ -1,0 +1,31 @@
+package com.soft.action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class DiaoDuAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/*
+	 * 分页查询所有
+	 */
+public void fenYeChaXun(){
+	
+}
+	/*
+	 * 调度管理
+	 */
+public void weiXiuDiaoDu(){
+	
+}
+/*
+ * 
+ * 统计维修师傅的工作情况，便于分配任务
+ */
+public void tongjiWeixiushiGongzuo(){
+	
+}
+}

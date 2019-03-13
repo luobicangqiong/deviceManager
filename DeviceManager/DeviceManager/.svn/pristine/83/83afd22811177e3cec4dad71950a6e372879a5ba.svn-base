@@ -1,0 +1,200 @@
+<!--面板-->
+			<div class="panel panel-primary out-pane">
+				<div class="panel-heading">
+					<h3 class="panel-title">我的任务</h3>
+
+				</div>
+				<div class="panel-body">
+					<!--内嵌面板-->
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+
+							
+							<!--<button class="btn btn-default add-cus" data-toggle="modal" data-target="#myModal">
+								添加客户
+							</button>
+							<!-- 按钮触发模态框 -->
+								<button class="btn btn-default start " data-toggle="modal" data-target="#myModal2">
+								开始任务
+							</button>
+							<button class="btn btn-default fill " data-toggle="modal" data-target="#myModal3">
+								填写维修报告
+							</button>
+							<button class="btn btn-default task-detail " data-toggle="modal" data-target="#myModal4">
+								任务详情
+							</button>
+						
+							<!-- 按钮触发模态框 -->
+							<div class="form-inline"  startyle="float: right;margin-right: 100px;">
+								<input type="text" class="form-control s-int" name="" id="" value="" />
+								<button type="button" class="btn btn-default cus-search" onclick="doSearch()">搜索</button>
+								<!--<button type="button" class="btn btn-default cus-search" name="" id="" value="搜索"onclick="doSearch()" />-->
+								<script type="text/javascript">  
+								
+								
+    function doSearch(){ //用户输入用户名,点击搜素,触发此函数  
+    	var value=$(".s-int").val();
+        $("#mm").datagrid({  
+            
+            width:1000,  
+            pageSize:10,  
+            pageListart:[5,10,15,20],  
+            nowrap:true,  
+           
+            collapsible:true,  
+            
+            url:'keFuAction_queryAllCustartomBy?search='+value, //触发此action,带上参数searcValue  
+            loadMsg:'数据加载中......',  
+            
+            sortName:'userId',  
+            sortOrder:'asc',  
+            remoteSort:false,  
+            
+            pagination : true,  
+            rownumbers : true  
+        })  
+    }  
+      
+</script>  
+
+							</div>
+
+						</div>
+
+<!-- 模态框（Modal） -->
+					<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+									</button>
+									<h4 class="modal-title" id="myModalLabel">
+               请选择
+            </h4>
+								</div>
+								<div class="modal-body">
+									<table class="table">
+					
+					<tr class="table-tr">
+						<th>姓名：</th><td id="cName"></td>
+						<th>身份证号：</th><td id="cIdCard"></td>
+						<th>公司：</th><td id="cCompany"></td>
+					</tr>
+						<tr class="table-tr">
+					<th>手机号：</th><td id="cMabile"></td>
+						<th>座机号：</th><td id="cTel"></td>
+						<th>地址：</th><td id="cAddrass"></td>
+					</tr>
+						<tr class="table-tr">
+						<th>邮编：</th><td id="cPostart"></td>
+						<th>Email：</th><td id="cEmail"></td>
+					</tr>
+					<tr class="table-tr">
+						<th>产品类型：</th><td><input type="text"class="form-control  productType " name="" id="" value="" /></td>
+						<th>设备品牌：</th><td><input type="text"class="form-control   machineBrand" name="" id="" value="" /></td>
+						</tr>
+					
+					<tr class="table-tr">
+						<th>设备问题现象：</th><td><input type="text"class="form-control machineBugPhenomenon  " name="" id="" value="" /></td>
+						<th>设备开机密码：</th><td><input type="text"class="form-control  machinefillPassword " name="" id="" value="" /></td>
+					</tr>
+						<tr class="table-tr">
+						<th>设备编号：</th><td><input type="text"class="form-control machineVersion  " name="" id="" value="" /></td>
+						<th>设备内存：</th><td><input type="text"class="form-control machineRam  " name="" id="" value="" /></td>
+					</tr>
+						<tr class="table-tr">
+						<th>送修时间：</th><td><input type="text"class="form-control custartomSentTime  " name="" id="" value="" /></td>
+						<th>客户性质：</th><td><input type="text"class="form-control custartomProperties  " name="" id="" value="" /></td>
+					</tr>
+						<tr class="table-tr">
+						<th>预估完成时间：</th><td><input type="text"class="form-control forecastartCompleteTime  " name="" id="" value="" /></td>
+						<th>其它说明：</th><td><input type="text"class="form-control other  " name="" id="" value="" /></td>
+						
+					</tr>
+						<tr class="table-tr">
+						<th>预估价钱：</th><td><input type="text"class="form-control forecastartPrice  " name="" id="" value="" /></td>
+					</tr>
+				</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+									
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
+					<script>
+						$(function () { $('#myModal').modal({
+						      keyboard: true
+						   })});
+						   
+						   $(function(){
+						   	var rowreport;
+						   	
+						   	$(".task-detail").click(
+						   		function(){
+						   			var row=$('#mm').datagrid('getSelected');
+						   			if(row){
+						   				
+						   				
+						   				  $(".task-detail").attr("data-target","#myModal4");
+						   				  	   				  
+						   				  $.ajax({
+
+             type: "post",
+           url: "WeiXiuAction_seeReportRepair",
+            dataType: "json",
+            data:{
+            	"custartom.custartomName":row.custartomName,
+            
+            	"custartom.custartomIdCard":row.custartomName,
+            	"custartom.custartomMabile":row.custartomMabile,
+            	"custartom.custartomEmail":row.custartomEmail,
+            	"custartom.custartomPostart":row.custartomPostart,
+            	"custartom.custartomTel":row.custartomTel,
+            	"custartom.custartomAddrass":row.custartomAddrass,
+            	"custartom.custartomCompany":row.custartomCompany,
+            	"custartom.custartomId":row.custartomId
+            	
+            },
+
+             success: function(data){
+             	alert(data.info);
+             	
+				
+             	$("#myModal4").hide();
+             	$('#mm').datagrid('reload');
+             	
+
+             }
+
+             
+
+    });
+						   				  
+						   				  
+						   				  
+						   			}else{
+						   				alert("请选择一行");   	   
+	   	                             $("#myModal4").hide();
+	   	                                   $(".task-detail").attr("data-target","none");
+						   				
+						   			}
+						   			
+					   		}
+						   	);
+						   	
+						   	}
+						   	
+						   
+//						    $(function(){ 
+//						   	var id=a;
+//						   	$(".start").click(function(){
+//						   								   
+//						   var row = $('#mm').datagrid('getSelected');
+					</script>

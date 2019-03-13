@@ -1,0 +1,10 @@
+package com.soft.daoimpl;
+
+import com.soft.dao.RepairDAO;
+
+import com.soft.model.Repair;
+import com.soft.util.BaseDAOImpl;
+
+public class RepairDAOImpl  extends BaseDAOImpl<Repair> implements RepairDAO{
+
+}

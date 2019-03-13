@@ -1,0 +1,11 @@
+package com.soft.service;
+
+import com.soft.model.Manager;
+
+public interface ManagerService {
+
+	public abstract boolean findByAccount(String account);
+
+	public abstract boolean findManager(Manager manager);
+
+}

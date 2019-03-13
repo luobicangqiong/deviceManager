@@ -1,0 +1,60 @@
+package com.soft.action;
+
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.BeiJian;
+import com.soft.service.IBeijianService;
+
+import net.sf.json.JSONObject;
+
+public class KuFangGuanLiAction extends ActionSupport{
+
+	
+	private BeiJian beijian;
+	private IBeijianService BeijianService;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private static final long serialVersionUID = 1L;
+	
+	public void addBeijian() throws IOException{
+		//BeiJian.setbeijianId(new GUID().toString());
+		
+		if(BeijianService.addBeiJian(beijian))
+		{
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().write("okla");
+		}
+	}
+	
+	public void deleteBeijian() throws IOException{
+		
+		String beijianId = request.getParameter("beijianId");
+		BeiJian beijian = new BeiJian();
+		beijian.setBeijianId(beijianId);
+		
+		JSONObject jsonObject = new JSONObject();
+		
+//		if(BeijianService.deleteBeiJian(beijian))
+//		{
+//			jsonObject.put("success", true);
+//    		response.getWriter().write(jsonObject.toString());
+//		}
+			
+	}
+	
+    public void updateBeijian() throws IOException{
+		
+//    	if(BeijianService.updateBeiJian(beijian))
+//		{
+//			response.setContentType("text/html;charset=UTF-8");
+//			response.getWriter().write("okla");		
+//		}
+	}
+    
+    public void findBeijian(){
+    		
+	}
+
+}

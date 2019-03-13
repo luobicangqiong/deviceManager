@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+<bean id="customDAOImpl" class="com.soft.daoimpl.CustomDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<bean id="beijianDAOImpl" class="com.soft.daoimpl.BeijianDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="empDAOImpl" class="com.soft.daoimpl.EmpDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="empInfoDAOImpl" class="com.soft.daoimpl.EmpInfoDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="repairDAOImpl" class="com.soft.daoimpl.RepairDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="reportRepairDAOImpl" class="com.soft.daoimpl.ReportRepairDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="roleMoudleDAOImpl" class="com.soft.daoimpl.RoleMoudleDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+
+	<bean id="diaoDuGuanLiServiceImpl" class="com.soft.serviceimpl.DiaoDuGuanLiServiceImpl">
+
+	</bean>
+	<bean id="keFuGuanLiServiceImpl" class="com.soft.serviceimpl.KeFuGuanLiServiceImpl">
+
+	</bean>
+	<bean id="kuFangGuanLiServiceImpl" class="com.soft.serviceimpl.KuFangGuanLiServiceImpl">
+
+	</bean>
+	<bean id="loginServiceImpl" class="com.soft.serviceimpl.LoginServiceImpl">
+
+	</bean>
+	<bean id="weiXiuGuanLiServiceImpl" class="com.soft.serviceimpl.WeiXiuGuanLiServiceImpl">
+
+	</bean>
+
+
+
+	<bean id="diaoDuGuanLiAction" class="com.soft.action.DiaoDuGuanLiAction">
+		<property name="diaoDuGuanLiServiceImpl" ref="diaoDuGuanLiServiceImpl"></property>
+	</bean>
+
+	<bean id="keFuGuanLiAction" class="com.soft.action.KeFuGuanLiAction">
+		<property name="keFuGuanLiServiceImpl" ref="keFuGuanLiServiceImpl"></property>
+	</bean>
+	<bean id="kuFangGuanLiAction" class="com.soft.action.KuFangGuanLiAction">
+		<property name="kuFangGuanLiServiceImpl" ref="kuFangGuanLiServiceImpl"></property>
+	</bean>
+	<bean id="loginAction" class="com.soft.action.LoginAction">
+		<property name="loginServiceImpl" ref="loginServiceImpl"></property>
+	</bean>
+	<bean id="weiXiuGuanLiAction" class="com.soft.action.weiXiuGuanLiAction">
+		<property name="weiXiuGuanLiServiceImpl" ref="weiXiuGuanLiServiceImpl"></property>
+	</bean>
+
+
+</beans>
+
+
+
+<property name="mappingResources">
+			<list>
+			
+	
+           <value>com/soft/module/BeiJian.hbm.xml</value>
+           <value>com/soft/module/BeijianApply.hbm.xml</value>
+           <value>com/soft/module/Custom.hbm.xml</value>
+           
+           <value>com/soft/module/EmpInfo.hbm.xml</value>
+           <value>com/soft/module/Emp.hbm.xml</value>
+           <value>com/soft/module/ModuleRole.hbm.xml</value>
+           
+           <value>com/soft/module/Module.hbm.xml</value>
+           <value>com/soft/module/Repair.hbm.xml</value>
+           <value>com/soft/module/ReportRepair.hbm.xml</value>
+			<value>com/soft/module/Manager.hbm.xml</value>
+			</list>
+		</property>
+	</bean>	
+	<import resource="applicationContext-all.xml"/>
+
+	
+	
+	
+	
+	<bean id="customDAOImpl" class="com.soft.daoimpl.CustomDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	
+
+
+
+	<bean id="keFuGuanLiServiceImpl" class="com.soft.serviceimpl.KeFuGuanLiServiceImpl">
+	<property name="customDAOImpl" ref="customDAOImpl"></property>
+
+	</bean>
+	
+
+
+
+	<bean id="keFuGuanLiAction" class="com.soft.action.KeFuGuanLiAction">
+		<property name="keFuGuanLiServiceImpl" ref="keFuGuanLiServiceImpl"></property>
+	</bean>

@@ -1,0 +1,91 @@
+package com.soft.action;
+
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.BeiJian;
+import com.soft.service.KuFangGuanLiService;
+
+import net.sf.json.JSONObject;
+
+public class KuFangAction extends ActionSupport{
+
+	
+	private BeiJian beijian;
+	private KuFangGuanLiService BeijianService;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 添加备件
+	 */
+	
+	public void addBeijian() throws IOException{
+		//BeiJian.setbeijianId(new GUID().toString());
+		
+		if(BeijianService.addBeiJian(beijian))
+		{
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().write("okla");
+		}
+	}
+	/*
+	 * 
+	 * 删除备件信息
+	 */
+	public void deleteBeijian() throws IOException{
+		
+		String beijianId = request.getParameter("beijianId");
+		BeiJian beijian = new BeiJian();
+		beijian.setBeijianId(beijianId);
+		
+		JSONObject jsonObject = new JSONObject();
+		
+//		if(BeijianService.deleteBeiJian(beijian))
+//		{
+//			jsonObject.put("success", true);
+//    		response.getWriter().write(jsonObject.toString());
+//		}
+			
+	}
+	/*
+	 * 修改备件信息
+	 */
+	
+    public void editBeijian() throws IOException{
+		
+//    	if(BeijianService.updateBeiJian(beijian))
+//		{
+//			response.setContentType("text/html;charset=UTF-8");
+//			response.getWriter().write("okla");		
+//		}
+	}
+    /*
+     * 查询所有并分页
+     */
+    public void queryBeijianAll(){
+    		
+	}
+    /*
+     * 按条件查询所有并分页
+     */
+    public void queryBeijianBy(){
+		
+	}
+    /*
+     * 查询所有申请并分页
+     */
+    public void queryApplyAll(){
+    		
+	}
+    /*
+     * 审批申请
+     * 修改设备申请表
+     * 申请结果
+     */
+    public void passApply(){
+    		
+	}
+
+}

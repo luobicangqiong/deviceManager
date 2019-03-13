@@ -1,0 +1,15 @@
+
+#kefu-search{
+	float: right;
+	margin-right: 400px;
+}
+#kefu-search-bt{
+	height: 29px;
+	
+}
+.tabs-title{
+	border-radius: 3px;
+}
+.out-pane{
+	width: 1100px;
+}

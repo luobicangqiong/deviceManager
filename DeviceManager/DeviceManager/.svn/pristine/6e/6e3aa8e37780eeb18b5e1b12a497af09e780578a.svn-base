@@ -1,0 +1,33 @@
+package com.soft.serviceimpl;
+
+import com.soft.service.DiaoDuGuanLiService;
+
+public class DiaoDuGuanLiServiceImpl implements DiaoDuGuanLiService {
+	
+	/*
+	 * 分页查询所有
+	 */
+
+@Override
+public void queryDiaoDu(){
+	
+}
+	/*
+	 * 调度管理
+	 * 修改报修表，在维修记录表添加记录
+	 */
+
+@Override
+public void weiXiuDiaoDu(){
+	
+}
+@Override
+/*
+ * 
+ * 统计维修师傅的工作情况，便于分配任务
+ */
+public void tongjiWeixiushiGongzuo(){
+	
+}
+
+}

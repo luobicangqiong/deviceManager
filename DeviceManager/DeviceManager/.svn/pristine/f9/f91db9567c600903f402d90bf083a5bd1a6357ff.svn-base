@@ -1,0 +1,18 @@
+package com.soft.service;
+
+public interface DiaoDuGuanLiService {
+
+	/*
+	 * 分页查询所有
+	 */
+	public abstract void queryDiaoDu();
+
+	/*
+	 * 调度管理
+	 * 修改报修表，在维修记录表添加记录
+	 */
+	public abstract void weiXiuDiaoDu();
+
+	public abstract void tongjiWeixiushiGongzuo();
+
+}

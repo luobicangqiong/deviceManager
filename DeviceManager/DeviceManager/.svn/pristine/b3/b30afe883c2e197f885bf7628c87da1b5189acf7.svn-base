@@ -1,0 +1,8 @@
+
+
+$(document).ready(function(){
+		
+  $(".tree-node").click(function(){
+  alert("node");
+  });
+});

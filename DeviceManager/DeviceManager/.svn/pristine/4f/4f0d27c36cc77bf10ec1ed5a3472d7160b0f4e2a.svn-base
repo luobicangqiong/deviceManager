@@ -1,0 +1,299 @@
+package com.soft.util;
+
+
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+
+public class BaseDAOImpl<T> extends HibernateDaoSupport implements BaseDAO<T>   {
+	
+	private static final Logger log = LoggerFactory.getLogger(BaseDAOImpl.class);
+	private SessionFactory  sessionFactory;
+	
+	
+	protected void initDao() {
+		// do nothing
+	}
+	// 增加=================================================================
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#save(T)
+	 */
+	@Override
+	public boolean save(T entity) {
+		log.debug("saving "+entity+" instance");
+		try {
+			if ((Boolean) this.getHibernateTemplate().save(entity))
+				{log.debug("save successful");
+				return true;}
+			else {return false;}
+			
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#saveOrUpdate(T)
+	 */
+	@Override
+	public void saveOrUpdate(T entity) {
+		log.debug("attaching dirty "+entity+" instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(entity);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+	// 删除=================================================================
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#delete(T)
+	 */
+	@Override
+	public void delete(T entity) {
+		log.debug("deleting "+entity+" instance");
+		try {
+			getHibernateTemplate().delete(entity);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+
+	// 更改=================================================================
+
+	
+	
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#update(T)
+	 */
+	@Override
+	public void update(T entity) {
+		this.getHibernateTemplate().update(entity);
+	}
+
+
+
+	// 内拼接查询=================================================================
+
+	
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findById(java.lang.Class, java.lang.String)
+	 */
+	@Override
+	public Object findById(Class<?> entity ,java.lang.String id) {
+//		log.debug("getting "+entity.getName()+" instance with id: " + id);
+		try {
+			Object instance = getHibernateTemplate().get(entity, id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+		
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findAll(java.lang.Class)
+	 */
+	@Override
+	public List<T> findAll(Class<?> classEntity) {
+		log.debug("finding all "+classEntity.getName()+" instances");
+		try {
+			String queryString = "from "+classEntity.getName();
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findByProperty(java.lang.Class, java.lang.String, java.lang.Object)
+	 */
+	@Override
+	public List<T> findByProperty(Class<?>classEntity, String propertyName, Object value) {
+		log.debug("finding "+classEntity.getName()+" instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from "+classEntity.getName()+" as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+
+
+
+
+	
+
+
+	
+	// 外传HQL/SQL查询=================================================================
+
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findPage(java.lang.String, int, int)
+	 */
+	@Override
+	public List<T> findPage(String hql, int page, int pageSize) {
+
+		Query query = this.getSession().createQuery(hql);
+		int firstResult = (page - 1) * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+		return query.list();
+	}
+
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#find(java.lang.String)
+	 */
+	@Override
+	public List<T> find(String hql) {
+
+		Query query = this.getSession().createQuery(hql);
+
+		return query.list();
+	}
+	
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findSQL(java.lang.String)
+	 */
+	@Override
+	public List<T> findSQL(final String sql) {
+
+		Query query = this.getSession().createSQLQuery(sql);
+
+		return query.list();
+	}
+	
+
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findSQLPage(java.lang.String, int, int)
+	 */
+	@Override
+	public List<T> findSQLPage(final String sql,int page, int pageSize) {
+
+		Query query = this.getSession().createSQLQuery(sql);
+		int firstResult = (page - 1) * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+		return query.list();
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findPage(java.lang.String, java.lang.Object[], int, int)
+	 */
+	@Override
+	public List<T> findPage(String hql,final Object[] values, int page, int pageSize) {
+
+		Query query = this.getSession().createQuery(hql);
+		int firstResult = (page - 1) * pageSize;
+		for (int i = 0; i < values.length; i++) {
+			query.setParameter(i, values[i]);
+		}
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+		
+		return query.list();
+	}
+
+	
+	
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#find(java.lang.String, java.lang.Object[])
+	 */
+	@Override
+	public List<T> find(String hql,final Object[] values) {
+
+		Query query = this.getSession().createQuery(hql);
+		for (int i = 0; i < values.length; i++) {
+			query.setParameter(i, values[i]);
+		}
+		return query.list();
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findSQL(java.lang.String, java.lang.Object[])
+	 */
+	@Override
+	public List<T> findSQL(final String sql,final Object[] values) {
+
+		Query query = this.getSession().createSQLQuery(sql);
+		for (int i = 0; i < values.length; i++) {
+			query.setParameter(i, values[i]);
+		}
+		return query.list();
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#findSQLPage(java.lang.String, java.lang.Object[], int, int)
+	 */
+	@Override
+	public List<T> findSQLPage(final String sql,final Object[] values,int page, int pageSize) {
+
+		Query query = this.getSession().createSQLQuery(sql);
+		for (int i = 0; i < values.length; i++) {
+			query.setParameter(i, values[i]);
+		}
+		int firstResult = (page - 1) * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+		return query.list();
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see com.soft.util.BaseDAO#countAll(java.lang.Class)
+	 */
+	@Override
+	public int countAll(Class<?> classEntity) {
+		String queryString = "select count(*) from " + classEntity.getName();
+		Query query = this.getSession().createQuery(queryString);
+		List list = query.list();
+		Long result = (Long) list.get(0);
+		return result.intValue();
+	}
+
+
+}

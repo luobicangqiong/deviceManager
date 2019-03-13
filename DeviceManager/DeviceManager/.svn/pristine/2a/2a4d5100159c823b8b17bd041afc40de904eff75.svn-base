@@ -1,0 +1,77 @@
+package com.soft.util;
+
+import java.util.List;
+
+public interface BaseDAO<T> {
+
+	public abstract boolean save(T entity);
+
+	public abstract void saveOrUpdate(T entity);
+
+	// É¾³ý=================================================================
+
+	public abstract void delete(T entity);
+
+	public abstract boolean deleteByProperty(String hql);
+
+	public abstract void update(T entity);
+
+	public abstract boolean updateByProperty(String hql);
+
+	public abstract Object findById(String entity, java.lang.String id);
+
+	public abstract List<T> findByExample(T entity);
+
+	public abstract List<T> findAll(Class<?> classEntity);
+
+	public abstract List<T> findEqualsPageSQL(String tableName,
+			Class classFullName, Object object, int page, int pagesize);
+
+	public abstract List<T> findLikePage(String tableName, Class classFullName,
+			Object object, int page, int pagesize);
+
+	public abstract List<T> findByPropertyLikePage(Class<?> classEntity,
+			String[] propertyNames, Object[] values, int page, int pageSize);
+
+	public abstract List<T> findByProperty(Class<?> classEntity,
+			String propertyName, Object value);
+
+	public abstract List<T> findByPropertys(Class<?> classEntity,
+			String[] propertyNames, Object[] values);
+
+	public abstract List<T> findByPropertysPage(Class<?> classEntity,
+			String[] propertyNames, Object[] values, int page, int pageSize);
+
+	public abstract List<T> findByPropertyPage(Class<?> classEntity,
+			String propertyName, Object value, int page, int pageSize);
+
+	public abstract List<T> findPage(String hql, int page, int pageSize);
+
+	public abstract List<T> find(String hql);
+
+	public abstract List<T> findSQL(String sql);
+
+	public abstract List<T> findSQLPage(String sql, int page, int pageSize);
+
+	public abstract List<T> findPage(String hql, Object[] values, int page,
+			int pageSize);
+
+	public abstract List<T> find(String hql, Object[] values);
+
+	public abstract List<T> findSQL(String sql, Object[] values);
+
+	public abstract List<T> findSQLPage(String sql, Object[] values, int page,
+			int pageSize);
+
+	public abstract int countAll(Class<?> classEntity);
+
+	public abstract int countByProperty(Class<?> classEntity,
+			String propertyName, Object value);
+
+	public abstract int countByPropertys(Class<?> classEntity,
+			String[] propertyNames, Object[] values);
+
+	public abstract int countByPropertysLike(Class<?> classEntity,
+			String[] propertyNames, Object[] values);
+
+}

@@ -1,0 +1,124 @@
+package com.soft.serviceimpl;
+
+
+import java.util.List;
+
+
+
+import com.soft.dao.BeijianApplyDAO;
+import com.soft.dao.BeijianDAO;
+import com.soft.model.BeiJian;
+import com.soft.model.BeijianApply;
+
+
+
+import com.soft.service.KuFangGuanLiService;
+
+public class KuFangGuanLiServiceImpl implements KuFangGuanLiService{
+	   
+	private BeijianDAO beijianDAO;  
+	private BeijianApplyDAO beijianApplyDAO;
+	
+	public BeijianDAO getBeijianDAO() {
+		return beijianDAO;
+	}
+
+	public void setBeijianDAO(BeijianDAO beijianDAO) {
+		this.beijianDAO = beijianDAO;
+	}
+
+	/*
+	 * 添加备件
+	 */
+	
+	public boolean addBeijian(BeiJian beijian) {
+		
+		boolean flag=false;	
+		flag=beijianDAO.save(beijian);
+		return flag;
+	
+	}
+	/*
+	 * 
+	 * 删除备件信息
+	 */
+	public void deleteBeijian(BeiJian beijian) {
+		
+		beijianDAO.delete(beijian);	
+	}
+	/*
+	 * 修改备件信息
+	 */
+	
+    public void editBeijian(BeiJian beijian){
+		
+    	beijianDAO.update(beijian);
+	}
+    /*
+     * 查询所有备件并分页
+     */
+    public List<BeiJian> queryBeijianAll(int page, int pageSize){
+    	StringBuffer hql = new StringBuffer("select m from bei_jian m ");
+    	
+    	List<BeiJian> list =(List<BeiJian>) beijianDAO.findPage(hql.toString(),page,pageSize);
+    	return list;
+	}
+    /*
+     * 按条件查询所有并分页
+     */
+    public List<BeiJian> queryBeijianBy(int page, int pageSize){
+       StringBuffer hql = new StringBuffer("      ");
+    	
+    	List<BeiJian> list =(List<BeiJian>) beijianDAO.findPage(hql.toString(),page,pageSize);
+    	return list;
+    	
+	}
+    /*
+     * 查询所有申请并分页
+     */
+    public List<BeijianApply> queryApplyAll(int page, int pageSize){
+       StringBuffer hql = new StringBuffer("select m from beijian_apply m ");
+    	
+    	List<BeijianApply> list =(List<BeijianApply>) beijianApplyDAO.findPage(hql.toString(),page,pageSize);
+    	return list;
+    		
+	}
+    /*
+     * 审批申请
+     * 修改设备申请表
+     * 申请结果
+     */
+    public void passApply(BeijianApply beijianApply){
+    	
+    	beijianApplyDAO.update(beijianApply);
+	}
+
+    /*
+     *当库管批准申请是，可以查看所要分配的备件库存情况，根据备件id查备件表
+     */
+    public List<BeiJian> queryApplyBy(int page, int pageSize){
+       StringBuffer hql = new StringBuffer("      ");
+    	
+    	List<BeiJian> list =(List<BeiJian>) beijianDAO.findPage(hql.toString(),page,pageSize);
+    	return list;
+    }
+    /*
+     * 查看设备流水，列出备件出库情况，从备件申请表查询
+     */
+    public List<BeijianApply> queryApplyComplete(int page, int pageSize){
+    	
+       StringBuffer hql = new StringBuffer("       ");
+    	
+    	List<BeijianApply> list =(List<BeijianApply>) beijianApplyDAO.findPage(hql.toString(),page,pageSize);
+    	return list;
+    }
+
+	@Override
+	public int countAll() {
+		// TODO Auto-generated method stub
+		return	beijianDAO.countAll(BeiJian.class);
+	}
+
+	
+
+}

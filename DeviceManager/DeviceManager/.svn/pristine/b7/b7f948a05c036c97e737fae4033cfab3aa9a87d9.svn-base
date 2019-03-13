@@ -1,0 +1,377 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+	<% String path=request.getContextPath(); String basePath=request.getScheme()+ "://"+request.getServerName()+ ":"+request.getServerPort()+path+ "/"; %>
+
+		<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+		<html>
+
+		<head>
+			<base href="<%=basePath%>">
+
+			<title>客户管理</title>
+			<meta charset="utf-8">
+			<meta http-equiv="pragma" content="no-cache">
+			<meta http-equiv="cache-control" content="no-cache">
+			<meta http-equiv="expires" content="0">
+			<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+			<meta http-equiv="description" content="This is my page">
+			<link rel="stylesheet" type="text/css" href="<%=basePath%>javascript/themes/bootstrap/easyui.css" />
+
+			<link rel="stylesheet" type="text/css" href="<%=basePath%>javascript/themes/icon.css" />
+			<link rel="stylesheet" type="text/css" href="<%=basePath%>javascript/bootstrap/css/bootstrap.css" />
+
+			<link rel="stylesheet" href="<%=basePath%>css/main.css" />
+			<script type="text/javascript" src="<%=basePath%>javascript/jquery-2.1.3.js"></script>
+			<script type="text/javascript" src="<%=basePath%>javascript/jquery.easyui.min.js"></script>
+			<script type="text/javascript" src="<%=basePath%>javascript/bootstrap/js/bootstrap.js"></script>
+			<script type="text/javascript" src="<%=basePath%>javascript/my.js"></script>
+		</head>
+
+		<body>
+			<!--面板-->
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">客户信息管理</h3>
+				</div>
+				<div class="panel-body">
+					<!--内嵌面板-->
+					<div class="panel panel-default">
+
+						<div class="panel-heading">
+	<h3 class="panel-title">客户信息管理</h3>
+							<!-- 按钮触发模态框 -->
+							<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+								开始演示模态框
+							</button>
+							<!-- 按钮触发模态框 -->
+							<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+								开始演示模态框
+							</button>
+
+						</div>
+						<table class="easyui-datagrid" id="dg" style="width:900px;height:400px" pagination="true" data-options="singleSelect:true,rownumbers:true,
+
+				collapsible:true,
+
+				url:'<%=basePath%>keFuAction_queryAllCustom',
+
+				pageSize:5,
+
+			pageList:[ 5, 10, 15, 20 ],method:'get'">
+							<thead>
+								<tr>
+									<th data-options="field:'custom.customName',width:100">姓名</th>
+									<th data-options="field:'custom.customIdCard',width:110">身份证号</th>
+									<th data-options="field:'custom.customCompany',width:110,align:'right'">所在单位</th>
+									<th data-options="field:'custom.customAddrass',width:100,align:'right'">住址</th>
+									<th data-options="field:'custom.customEmail',width:110">座机号</th>
+									<th data-options="field:'custom.customMabile',width:110,align:'center'">手机号</th>
+									<th data-options="field:'custom.customPost',width:110,align:'center'">邮编号</th>
+									<th data-options="field:'custom.customTel',width:100,align:'center'">Email</th>
+								</tr>
+							</thead>
+						</table>
+
+					</div>
+
+			
+
+			<script>
+				function pagerFilter(data) {
+					if (typeof data.length == 'number' && typeof data.splice == 'function') { // is array
+						data = {
+							total: data.length,
+							rows: data
+						}
+					}
+					var dg = $(this);
+					var opts = dg.datagrid('options');
+					var pager = dg.datagrid('getPager');
+					pager.pagination({
+						onSelectPage: function(pageNum, pageSize) {
+							opts.pageNumber = pageNum;
+							opts.pageSize = pageSize;
+							pager.pagination('refresh', {
+								pageNumber: pageNum,
+								pageSize: pageSize
+							});
+							dg.datagrid('loadData', data);
+						}
+					});
+					if (!data.originalRows) {
+						data.originalRows = (data.rows);
+					}
+					var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+					var end = start + parseInt(opts.pageSize);
+					data.rows = (data.originalRows.slice(start, end));
+					return data;
+				}
+
+				function deleteWin() {
+					var row = $('#dg').datagrid('getSelected');
+					if (row) {
+						$.messager.confirm('删除顾客信息', '请确定是否删除?',
+							function(r) {
+								if (r) {
+									$.post('<%=basePath%>keFuAction_deleteCustom', {
+										custom.customId: row['custom.customId']
+									}, function(result) {
+										if (result.success) {
+											$('#dg').datagrid('reload');
+										} else {
+											$.messager.show({
+												title: '错误',
+												msg: result.errorMsg
+											});
+										}
+									}, 'json');
+								}
+							});
+					} else {
+						$.messager.show({
+							title: '操作错误',
+							msg: '请选择一行数据',
+							timeout: 2000,
+							showType: 'fade'
+						});
+					}
+				}
+			</script>
+
+			</div>
+
+			<!-- 模态框（Modal）add 添加-->
+			<div class="modal fade" id="hao" tabindex="-1" role="dialog" aria-labelledby="haoLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="haoLabel">
+
+
+
+               请填写信息
+
+
+
+            </h4>
+						</div>
+						<div class="modal-body">
+							<form action="keFuAction_addCustom" method="post">
+								<table class="table">
+
+									<tr class="table-tr">
+
+										<th>姓名</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customName" id="" value="" />
+										</td>
+										<th>省份证号</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customIdCard" id="" value="" />
+										</td>
+									</tr>
+									<tr class="table-tr">
+										<th>手机号</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customMabile" id="" value="" />
+										</td>
+										<th>座机号</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customEmail" id="" value="" />
+										</td>
+									</tr>
+									<tr class="table-tr">
+										<th>邮编</th>
+										<td>
+											<input type="text" class="form-control   " name="" id="" value="" />
+										</td>
+										<th>Email</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customEmail" id="" value="" />
+										</td>
+									</tr>
+									<tr class="table-tr">
+										<th>地址</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customAddrass" id="" value="" />
+										</td>
+										<th>公司</th>
+										<td>
+											<input type="text" class="form-control   " name="custom.customCompany" id="" value="" />
+										</td>
+									</tr>
+
+								</table>
+								
+						</div>
+						<div class="modal-footer">
+
+							<button type="submit" class="btn btn-default add-custom-submit" data-dismiss="modal">提交更改
+							</button>
+							<script type="text/javascript">
+								 //								此处用ajax提交添加客户
+							</script>
+
+						</div>
+						</form>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal -->
+				<!-- 模态框（Modal）edit -->
+				<div class="modal fade" id="ni" tabindex="-1" role="dialog" aria-labelledby="niLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title" id="niLabel">
+
+
+
+               请填写信息
+
+
+
+            </h4>
+							</div>
+							<div class="modal-body">
+								<form action="" method="post">
+									<table class="table">
+
+										<tr class="table-tr">
+											<td>姓名</td>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+											<td>省份证号</td>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+										</tr>
+										<tr class="table-tr">
+											<th>手机号</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+											<th>座机号</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+										</tr>
+										<tr class="table-tr">
+											<th>邮编</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+											<th>Email</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+										</tr>
+										<tr class="table-tr">
+											<th>地址</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+											<th>公司</th>
+											<td>
+												<input type="text" class="form-control   " name="" id="" value="" />
+											</td>
+										</tr>
+
+									</table>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">提交更改
+										</button>
+
+									</div>
+								</form>
+
+							</div>
+
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal -->
+
+					<!-- 模态框（Modal） -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+									</button>
+									<h4 class="modal-title" id="myModalLabel">
+               模态框（Modal）标题1111
+            </h4>
+								</div>
+								<div class="modal-body">
+									按下 ESC 按钮退出。
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+									<button type="button" class="btn btn-primary">
+										提交更改
+									</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
+					<script>
+						$(function() {
+							$('#myModal').modal({
+								keyboard: true
+							})
+						});
+					</script>
+					<!-- 模态框（Modal） -->
+					<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+									</button>
+									<h4 class="modal-title" id="myModalLabel">
+               模态框（Modal）标题2222
+            </h4>
+								</div>
+								<div class="modal-body">
+									按下 ESC 按钮退出。
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+									<button type="button" class="btn btn-primary">
+										提交更改
+									</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
+					<script>
+						$(function() {
+							$('#myModal').modal({
+								keyboard: true
+							})
+						});
+					</script>
+					
+					
+					
+						</div>
+			</div>
+		</body>
+
+		</html>

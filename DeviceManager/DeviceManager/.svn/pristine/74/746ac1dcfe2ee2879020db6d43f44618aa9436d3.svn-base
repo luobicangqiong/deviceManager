@@ -1,0 +1,29 @@
+	<div title="报修管理" " closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/kefuguanli/baoxiuguanli.jsp"   frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					<div title="结算管理"closable="true" style="overflow:auto;padding:20px;">
+					<iframe src="<%=basePath%>jsp/kefuguanli/jiesuanguanli.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					
+					<div title="客户管理"  closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/kefuguanli/kehuguanli.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+
+					<div title="我的任务" closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/weixiuguanli/woderenwu.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					<div title="申请备件" closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/weixiuguanli/shenqingshebei.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					
+					
+					<div title="管理申请" closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/kufangguanli/guanlishenqing.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					<div title="备件管理" closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/kufangguanli/beijianguanli.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+					<div title="维修调度" closable="true" style="overflow:auto;padding:20px;">
+						<iframe src="<%=basePath%>jsp/renwudiaoduguanli/weixiudiaodu.jsp"  frameborder=no  scrolling=no width="920" height="900"></iframe>
+					</div>
+				

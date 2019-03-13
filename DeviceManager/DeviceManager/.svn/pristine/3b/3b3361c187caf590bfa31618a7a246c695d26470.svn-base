@@ -1,0 +1,293 @@
+package com.soft.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.BeiJian;
+import com.soft.model.BeijianApply;
+import com.soft.model.Repair;
+import com.soft.model.ReportRepair;
+import com.soft.service.KuFangGuanLiService;
+import com.soft.serviceimpl.WeiXiuGuanLiService;
+
+public class WeiXiuAction extends ActionSupport {
+	
+	private Repair repair;
+	private ReportRepair reportRepair;
+	private BeijianApply beijianApply;
+	private WeiXiuGuanLiService weiXiuGuanLiService;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+
+	public Repair getRepair() {
+		return repair;
+	}
+	public void setRepair(Repair repair) {
+		this.repair = repair;
+	}
+	public ReportRepair getReportRepair() {
+		return reportRepair;
+	}
+	public void setReportRepair(ReportRepair reportRepair) {
+		this.reportRepair = reportRepair;
+	}
+	public WeiXiuGuanLiService getWeiXiuGuanLiService() {
+		return weiXiuGuanLiService;
+	}
+	public void setWeiXiuGuanLiService(WeiXiuGuanLiService weiXiuGuanLiService) {
+		this.weiXiuGuanLiService = weiXiuGuanLiService;
+	}
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	public void setResponse(HttpServletResponse response) {
+		this.response = response;
+	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 查询维修记录表，列出我的任务
+	 * 
+	 */
+	public String queryAllWeixiu(){
+		
+		int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List weixiuList = weiXiuGuanLiService.queryAllWeixiu((pageNum-1)*pageSize,pageSize);
+    	if(weixiuList.size()>0)
+    	{
+    		request.setAttribute("weixiuList", weixiuList);
+    	}else{
+    		request.setAttribute("weixiuList", "");
+    	}
+    	
+    	Iterator iterator = weixiuList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", weiXiuGuanLiService.countAllweixiu());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		
+    		Repair repair = (Repair)iterator.next();
+    		obj.put("repair.repairId", repair.getRepairId());
+    		obj.put("repair.empRepairmanId", repair.getEmpRepairmanId());
+    		obj.put("repair.reportRepairId", repair.getReportRepairId());
+    		obj.put("repair.repairSchdulTime", repair.getRepairSchdulTime());
+    		obj.put("repair.machineCheckRecord", repair.getMachineCheckRecord());
+    		obj.put("repair.machineCheckTime", repair.getMachineCheckTime());
+    		obj.put("repair.repairRecord", repair.getRepairRecord());
+    		obj.put("repair.repairWorkTime", repair.getRepairWorkTime());
+    		obj.put("repair.repairLabourPrice", repair.getRepairLabourPrice());
+    		obj.put("repair.materialPrice", repair.getMaterialPrice());
+    		obj.put("repair.repairPromise", repair.getRepairPromise());
+    		obj.put("repair.attentionMatter", repair.getAttentionMatter());
+    		obj.put("repair.repairState", repair.getRepairState());
+    		obj.put("repair.repairDelayDegree", repair.getRepairDelayDegree());
+    		obj.put("repair.empSchedulingManId", repair.getEmpSchedulingManId());
+    		
+    		jsonArray.add(obj);
+    	}
+    	
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+		
+	}
+	/*
+	 * 开始任务，修改维修记录表的，状态，时间等
+	 * 
+	 */
+	public void startWeixiu(){
+		
+		weiXiuGuanLiService.startWeixiu(repair);
+		JSONObject finalObj = new JSONObject();
+		finalObj.put("info", "修改成功");
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	PrintWriter out = null;
+    	try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	out.println(finalObj.toString());
+		out.flush();
+		out.close();
+    	
+	}
+	/*
+	 * 填写维修报告，修改维修表，添加信息
+	 */
+	public void  fillWriteReport(){
+		
+		weiXiuGuanLiService.fillWriteReport(repair);
+		JSONObject finalObj = new JSONObject();
+		finalObj.put("info", "修改成功");
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	PrintWriter out = null;
+    	try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	out.println(finalObj.toString());
+		out.flush();
+		out.close();
+	}
+	/*
+	 * 添加备件申请，填写申请单，在申请表写入记录
+	 */
+	public void addBeijianApply(){
+		
+		weiXiuGuanLiService.addBeijianApply(beijianApply);
+		JSONObject finalObj = new JSONObject();
+		finalObj.put("info", "修改成功");
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	PrintWriter out = null;
+    	try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	out.println(finalObj.toString());
+		out.flush();
+		out.close();
+	}
+	/*
+	 * 编辑备件申请，修改申请单
+	 */
+	public void editBeiJianApply(){
+		weiXiuGuanLiService.editBeiJianApply(beijianApply);
+		JSONObject finalObj = new JSONObject();
+		finalObj.put("info", "修改成功");
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	PrintWriter out = null;
+    	try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	out.println(finalObj.toString());
+		out.flush();
+		out.close();
+	}
+	/*
+	 * 撤销申请，备件申请，修改状态为撤销
+	 */
+	public void DeleteBeiJianApply(){
+		weiXiuGuanLiService.DeleteBeiJianApply(beijianApply);
+		JSONObject finalObj = new JSONObject();
+		finalObj.put("info", "修改成功");
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	PrintWriter out = null;
+    	try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	out.println(finalObj.toString());
+		out.flush();
+		out.close();
+		
+	}
+	/*
+	 * 确认，申请成功。一旦确认，此申请完成，
+	 */
+	public void sureBeijianApply(){
+		
+	}
+	/*
+	 * 根据申请单的状态等，列出未完成的申请单
+	 */
+	public String queryBeijianApply(){
+		int pageNum = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+    	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+    	
+    	List beijianApplyList = weiXiuGuanLiService.queryBeijianApply((pageNum-1)*pageSize,pageSize);
+    	if(beijianApplyList.size()>0)
+    	{
+    		request.setAttribute("beijianApplyList", beijianApplyList);
+    	}else{
+    		request.setAttribute("beijianApplyList", "");
+    	}
+    	
+    	Iterator iterator = beijianApplyList.iterator();
+    	JSONArray jsonArray = new JSONArray();
+    	JSONObject finalObj = new JSONObject();
+    	// 统计数据总行数 分页
+    	finalObj.put("total", weiXiuGuanLiService.countBeijianApply());
+
+    	while(iterator.hasNext())
+    	{
+    		JSONObject obj = new JSONObject();
+    		BeijianApply beijianApply = (BeijianApply)iterator.next();
+    		obj.put("beijianApply.applyId", beijianApply.getApplyId());
+    		obj.put("beijianApply.beijianName", beijianApply.getBeijianName());
+    		obj.put("beijianApply.beijianNumber", beijianApply.getBeijianNumber());
+    		obj.put("beijianApply.beijianPrice", beijianApply.getBeijianPrice());
+    		obj.put("beijianApply.applyTime", beijianApply.getApplyTime());
+    		obj.put("beijianApply.applyPassTime", beijianApply.getApplyPassTime());
+    		obj.put("beijianApply.applyManId", beijianApply.getApplyManId());
+    		obj.put("beijianApply.applyPassManId", beijianApply.getApplyPassManId());
+    		obj.put("beijianApply.beijianId", beijianApply.getBeijianId());
+    		obj.put("beijianApply.beijianVersion", beijianApply.getBeijianVersion());
+    		
+    		jsonArray.add(obj);
+    	}
+    	
+    	System.out.println(jsonArray.toString());
+    	finalObj.put("rows", jsonArray);
+    	//System.out.println("-----"+finalObj.toString()+"-----");
+    	  response.setContentType("text/html;charset=UTF-8");
+    	  PrintWriter out = null;
+    	try {
+    		out = response.getWriter();
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    	}   
+    	   
+    	   out.println(finalObj.toString());   
+    	   out.flush();   
+    	   out.close();  
+		return null;
+	}
+
+}

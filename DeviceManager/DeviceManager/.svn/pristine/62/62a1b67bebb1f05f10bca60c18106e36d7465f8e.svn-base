@@ -1,0 +1,8 @@
+package com.soft.test;
+
+import com.soft.model.Manager;
+import com.soft.util.BaseDAO;
+
+public interface ManagerDAO extends BaseDAO<Manager> {
+
+}

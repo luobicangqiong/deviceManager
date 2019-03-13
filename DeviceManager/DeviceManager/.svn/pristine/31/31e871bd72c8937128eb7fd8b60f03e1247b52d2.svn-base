@@ -1,0 +1,19 @@
+package com.soft.action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class LoginAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 根据账号信息，与模块表，角色表连接查询所对应的模块信息
+	 * 跳到main.jsp展现所对应的模块
+	 */
+	public void login(){
+		
+	}
+
+}

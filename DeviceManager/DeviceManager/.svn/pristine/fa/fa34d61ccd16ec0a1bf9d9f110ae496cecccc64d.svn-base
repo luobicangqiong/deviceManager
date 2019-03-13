@@ -1,0 +1,93 @@
+package com.soft.action;
+
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.BeiJian;
+import com.soft.service.KuFangGuanLiService;
+
+import net.sf.json.JSONObject;
+
+public class KuFangAction extends ActionSupport{
+
+	
+	private BeiJian beijian;
+	private KuFangGuanLiService kuFangGuanLiService;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 添加备件
+	 */
+	
+	public void addBeijian(BeiJian beijian){
+		
+		boolean flag=kuFangGuanLiService.addBeijian(beijian);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("修改成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	/*
+	 * 
+	 * 删除备件信息
+	 */
+	public void deleteBeijian(){
+		
+		kuFangGuanLiService.deleteBeijian(beijian);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("删除成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	/*
+	 * 修改备件信息
+	 */
+	
+    public void editBeijian(){
+		
+    	kuFangGuanLiService.editBeijian(beijian);
+    	response.setContentType("text/html;charset=UTF-8");
+    	try {
+			response.getWriter().write("修改成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    /*
+     * 查询所有并分页
+     */
+    public void queryBeijianAll(){
+    		return;
+	}
+    /*
+     * 按条件查询所有并分页
+     */
+    public void queryBeijianBy(){
+		
+	}
+    /*
+     * 查询所有申请并分页
+     */
+    public void queryApplyAll(){
+    		
+	}
+    /*
+     * 审批申请
+     * 修改设备申请表
+     * 申请结果
+     */
+    public void passApply(){
+    		
+	}
+
+}

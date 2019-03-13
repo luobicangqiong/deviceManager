@@ -1,0 +1,16 @@
+.table-tr th{
+	text-align: left;
+	
+	width: 110px;
+}
+.table-tr td{
+	text-align: left;
+}
+#kefu-search{
+	float: right;
+	margin-right: 220px;
+}
+#kefu-search-bt{
+	height: 29px;
+	
+}

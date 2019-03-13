@@ -1,0 +1,64 @@
+//根据json创建树
+function showJSON() {
+		$(function() {
+
+					$.ajax(
+
+								type: "GET",
+								url: "loginAction_checkRole",
+								dataType: "json",
+
+								success: function(data) {
+
+									var tree = null;
+									var root = null;
+									var l = data.role.length;
+									console.log(l);
+									for (var i = 0; i < l; i++) {
+										if (data.role[i].parentId == "0") {
+											console.log(data.role[i].parentId);
+											root = new TreeNode(data.role[i].moduleName, null, 'tree_node.gif', 'tree_node.gif', 'tree_node.gif', 'tree_node.gif', null);
+											//				document.write(data.role[i].moduleName + "<br>");		
+											for (var j = 0; j < l; j++) {
+												if (data.role[j].parentId == data.role[i].moduleId) {
+													var fun1 = new TreeNode(data.role[j].moduleName, data.role[j].moduleUrl, null, null, null, null, data.role[j].parentId);
+													root.add(fun1);
+													//					document.write("　");
+													//					document.write(data.role[j].moduleName + "<br>");
+												}
+											}
+										}
+									}
+									tree = new Tree(root);
+									tree.show('menuTree');
+
+
+
+								});
+							// 点击在右边显示
+							$("#tree-node").click(
+								function() {
+									var nodeName = $(this).test();
+
+									var nodeId = $(this).ATTR("id");
+
+
+
+									$("#one-tabs").append("<div title="
+											"+nodeName+"
+											closable = "true"
+											style = "overflow:auto;padding:20px;" >
+											< div class = "" + nodeId + "" > < /div>
+					</div > "
+   
+   );
+   
+   
+   
+                      }
+
+)
+//  结束
+    });
+
+}

@@ -1,0 +1,114 @@
+package com.soft.service;
+
+
+import java.util.List;
+
+import com.soft.dao.BeijianApplyDAO;
+import com.soft.dao.RepairDAO;
+import com.soft.model.BeijianApply;
+import com.soft.model.Repair;
+import com.soft.serviceimpl.WeiXiuGuanLiService;
+
+public class WeiXiuGuanLiServiceImpl implements WeiXiuGuanLiService {
+	
+	private RepairDAO repairDAO;
+	private BeijianApplyDAO beijianApplyDAO;
+	
+	/*
+	 * 查询维修记录表，列出我的任务
+	 * 
+	 */
+	
+	@Override
+	public List<Repair> queryAllWeixiu(int page,int pageSize){
+		
+		StringBuffer hql = new StringBuffer("         ");
+		
+		List<Repair> list =(List<Repair>) repairDAO.findPage(hql.toString(),page,pageSize);
+		return list;
+		
+	}
+	/*
+	 * 开始任务，修改维修记录表的，状态，时间等
+	 * 
+	 */
+	
+	@Override
+	public void startWeixiu(Repair repair){
+		
+		repairDAO.save(repair);
+	}
+	/*
+	 * 填写维修报告，修改维修表，添加信息
+	 */
+	
+	@Override
+	public void  fillWriteReport(Repair repair){
+		
+		repairDAO.save(repair);
+	}
+	/*
+	 * 添加备件申请，填写申请单，在申请表写入记录
+	 */
+	
+	@Override
+	public void addBeijianApply(BeijianApply beijianApply){
+		
+		beijianApplyDAO.save(beijianApply);
+	}
+	/*
+	 * 编辑备件申请，修改申请单
+	 */
+	
+	@Override
+	public void editBeiJianApply(BeijianApply beijianApply){
+		
+		beijianApplyDAO.update(beijianApply);
+	}
+	/*
+	 * 撤销申请，备件申请，修改状态为撤销
+	 */
+	
+	@Override
+	public void DeleteBeiJianApply(BeijianApply beijianApply){
+		
+		beijianApplyDAO.delete(beijianApply);
+	}
+	/*
+	 * 确认，申请成功。一旦确认，此申请完成，
+	 */
+	
+	@Override
+	public void sureBeijianApply(){
+		
+	}
+	/*
+	 * 根据申请单的状态等，列出未完成的申请单
+	 */
+	
+	@Override
+    public List<BeijianApply> queryBeijianApply(int page,int pageSize){
+		
+		StringBuffer hql = new StringBuffer("         ");
+		
+		List<BeijianApply> list =(List<BeijianApply>) beijianApplyDAO.findPage(hql.toString(),page,pageSize);
+		return list;
+		
+	}
+
+	@Override
+	public int countAllweixiu() {
+		StringBuffer hql = new StringBuffer("select count(*) from Custom");
+		return repairDAO.countAllHql(hql.toString());
+		
+	}
+
+	@Override
+	public int countBeijianApply() {
+		StringBuffer hql = new StringBuffer("select count(*) from Custom");
+		return beijianApplyDAO.countAllHql(hql.toString());
+		
+	}
+
+
+}

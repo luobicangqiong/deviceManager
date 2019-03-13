@@ -1,0 +1,46 @@
+package com.soft.serviceimpl;
+
+import java.util.List;
+
+import com.soft.dao.BeijianDAO;
+import com.soft.model.BeiJian;
+
+import com.soft.service.IBeijianService;
+
+public class KuFangGuanLiServiceImpl implements IBeijianService{
+	   
+	private BeijianDAO beijianDAO;  
+	
+	public BeijianDAO getBeijianDAO() {
+		return beijianDAO;
+	}
+
+	public void setBeijianDAO(BeijianDAO beijianDAO) {
+		this.beijianDAO = beijianDAO;
+	}
+
+	@Override
+	public boolean addBeiJian(BeiJian beijian) {
+		return beijianDAO.save(beijian);	
+	}
+
+	@Override
+	public void deleteBeiJian(BeiJian beijian) {
+	   
+	}
+	@Override
+	public void updateBeiJian(BeiJian beijian) {
+	   
+	}
+
+	@Override
+	public boolean findBeiJian(BeiJian beijian) {
+		
+		List<BeiJian> list =beijianDAO.findAll(com.soft.model.BeiJian.class);
+		   if(list!=null){
+			return true;
+			}
+		return false;	
+	}
+
+}

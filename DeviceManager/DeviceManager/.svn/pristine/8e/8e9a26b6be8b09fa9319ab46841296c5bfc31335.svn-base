@@ -1,0 +1,82 @@
+package com.soft.serviceimpl;
+
+import java.io.IOException;
+import java.util.List;
+
+import net.sf.json.JSONObject;
+
+import com.soft.dao.BeijianDAO;
+import com.soft.model.BeiJian;
+
+
+import com.soft.service.KuFangGuanLiService;
+
+public class KuFangGuanLiServiceImpl implements KuFangGuanLiService{
+	   
+	private BeijianDAO beijianDAO;  
+	
+	public BeijianDAO getBeijianDAO() {
+		return beijianDAO;
+	}
+
+	public void setBeijianDAO(BeijianDAO beijianDAO) {
+		this.beijianDAO = beijianDAO;
+	}
+
+	/*
+	 * 添加备件
+	 */
+	
+	public boolean addBeijian(BeiJian beijian) 
+{
+	return false;
+		
+	}
+	/*
+	 * 
+	 * 删除备件信息
+	 */
+	public void deleteBeijian() 
+{
+		
+		
+			
+	}
+	/*
+	 * 修改备件信息
+	 */
+	
+    public void editBeijian(){
+		
+
+	}
+    /*
+     * 查询所有备件并分页
+     */
+    public void queryBeijianAll(){
+    		
+	}
+    /*
+     * 按条件查询所有并分页
+     */
+    public void queryBeijianBy(){
+		
+	}
+    /*
+     * 查询所有申请并分页
+     */
+    public void queryApplyAll(){
+    		
+	}
+    /*
+     * 审批申请
+     * 修改设备申请表
+     * 申请结果
+     */
+    public void passApply(){
+    		
+	}
+
+	
+
+}

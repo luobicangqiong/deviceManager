@@ -1,0 +1,51 @@
+package com.soft.test;
+
+import java.util.List;
+
+import com.soft.model.Manager;
+import com.soft.service.ManagerService;
+
+public class ManagerServiceImpl implements ManagerService {
+	private ManagerDAO managerDAOImpl;
+	
+	
+	public ManagerDAO getManagerDAOImpl() {
+		return managerDAOImpl;
+	}
+
+
+	public void setManagerDAOImpl(ManagerDAO managerDAOImpl) {
+		this.managerDAOImpl = managerDAOImpl;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.soft.serviceimpl.ManagerService#findByAccount(java.lang.String)
+	 */
+	@Override
+	public boolean findByAccount(String account){
+		
+	List<Manager> list =managerDAOImpl.findByProperty(com.soft.model.Manager.class, "managerAccount", account);
+	   if(list!=null)
+		return true;
+		return false;
+		
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.soft.serviceimpl.ManagerService#findManager(com.soft.model.Manager)
+	 */
+	@Override
+	public boolean findManager(Manager manager){
+		
+		List<Manager> list=  managerDAOImpl.findByPropertys(com.soft.model.Manager.class, new String[]{"managerAccount","managerPassword"}, new Object[]{manager.getManagerAccount(),manager.getManagerPassword()});
+		 if(list!=null)
+				return true;
+				return false;
+		
+		
+	}
+
+	
+}

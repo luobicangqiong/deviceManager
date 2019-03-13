@@ -1,0 +1,75 @@
+package com.soft.service;
+
+import com.soft.serviceimpl.WeiXiuGuanLiService;
+
+public class WeiXiuGuanLiServiceImpl implements WeiXiuGuanLiService {
+	
+	/*
+	 * 查询维修记录表，列出我的任务
+	 * 
+	 */
+	
+	@Override
+	public void queryAllWeixiu(){
+		
+	}
+	/*
+	 * 开始任务，修改维修记录表的，状态，时间等
+	 * 
+	 */
+	
+	@Override
+	public void startWeixiu(){
+		
+	}
+	/*
+	 * 填写维修报告，修改维修表，添加信息
+	 */
+	
+	@Override
+	public void  fillWriteReport(){
+		
+	}
+	/*
+	 * 添加备件申请，填写申请单，在申请表写入记录
+	 */
+	
+	@Override
+	public void addBeijianApply(){
+		
+	}
+	/*
+	 * 编辑备件申请，修改申请单
+	 */
+	
+	@Override
+	public void editBeiJianApply(){
+		
+	}
+	/*
+	 * 撤销申请，备件申请，修改状态为撤销
+	 */
+	
+	@Override
+	public void DeleteBeiJianApply(){
+		
+		
+	}
+	/*
+	 * 确认，申请成功。一旦确认，此申请完成，
+	 */
+	
+	@Override
+	public void sureBeijianApply(){
+		
+	}
+	/*
+	 * 根据申请单的状态等，列出未完成的申请单
+	 */
+	
+	@Override
+	public void queryBeijianApply(){
+		
+	}
+
+}

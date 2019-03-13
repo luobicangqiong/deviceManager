@@ -1,0 +1,10 @@
+package com.soft.dao;
+
+
+import com.soft.model.BeijianApply;
+import com.soft.util.BaseDAO;
+
+public interface BeijianApplyDAO extends BaseDAO<BeijianApply>{
+
+	
+}

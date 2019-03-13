@@ -1,0 +1,79 @@
+package com.soft.serviceimpl;
+
+import java.util.List;
+
+import com.soft.dao.CustomDAO;
+import com.soft.model.Custom;
+import com.soft.service.KeFuGuanLiService;
+
+
+public class KeFuGuanLiServiceImpl implements KeFuGuanLiService {
+	private CustomDAO  customDAOImpl ;
+	public CustomDAO getCustomDAOImpl() {
+		return customDAOImpl;
+	}
+	public void setCustomDAOImpl(CustomDAO customDAOImpl) {
+		this.customDAOImpl = customDAOImpl;
+	}
+	/* (non-Javadoc)
+	 * @see com.soft.serviceimpl.KeFuGuanLiService#addCustom(com.soft.model.Custom)
+	 */
+	@Override
+	public boolean addCustom(Custom custom){
+		boolean flag=false;
+		
+		flag=customDAOImpl.save(custom);
+		return flag;
+		
+	}
+  /* (non-Javadoc)
+ * @see com.soft.serviceimpl.KeFuGuanLiService#deleteCustom(com.soft.model.Custom)
+ */
+@Override
+public void deleteCustom(Custom custom){
+	  customDAOImpl.delete(custom);
+	
+	}
+/* (non-Javadoc)
+ * @see com.soft.serviceimpl.KeFuGuanLiService#updateCustom(com.soft.model.Custom)
+ */
+@Override
+public void updateCustom(Custom custom){
+	
+	Custom cus=(Custom) customDAOImpl.findById(Custom.class, custom.getCustomId());
+	cus.setCustomAddrass(custom.getCustomAddrass());
+	cus.setCustomCompany(custom.getCustomCompany());
+	cus.setCustomEmail(custom.getCustomEmail());
+	cus.setCustomIdCard(custom.getCustomIdCard());
+	cus.setCustomMabile(custom.getCustomMabile());
+	cus.setCustomName(custom.getCustomName());
+	cus.setCustomPost(custom.getCustomPost());
+	cus.setCustomTel(custom.getCustomTel());
+	
+	
+}
+/* (non-Javadoc)
+ * @see com.soft.serviceimpl.KeFuGuanLiService#queryCustom(com.soft.model.Custom)
+ */
+@Override
+public void queryCustomBy(Custom custom){
+	
+	
+}
+public List<Custom> queryAll(int page, int pageSize){
+	StringBuffer hql = new StringBuffer("select m from Custom m ");
+	
+	List<Custom> list =customDAOImpl.findPage(hql.toString(),page,pageSize);
+	return list;
+	
+}
+public int countAll(){
+	
+return	customDAOImpl.countAll(Custom.class);
+}
+public int countALLBy(String customName){
+	return 0;
+	
+}
+
+}

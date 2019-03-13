@@ -1,0 +1,8 @@
+<th data-options="field:'beijian.beijianId',width:80">备件编号</th>
+							<th data-options="field:'beijian.beijianName',width:100">备件名称</th>
+							<th data-options="field:'beijian.beijianVersion',width:80,align:'right'">备件型号</th>
+							<th data-options="field:'beijian.beijianPrice',width:80,align:'right'">备件价格</th>
+							<th data-options="field:'beijian.beijianNumber',width:250">备件数量</th>
+							<th data-options="field:'beijian.warnNumber',width:60,align:'center'">预警数量</th>
+							<th data-options="field:'beijian.beijianState',width:60,align:'center'">备件状态</th>
+					

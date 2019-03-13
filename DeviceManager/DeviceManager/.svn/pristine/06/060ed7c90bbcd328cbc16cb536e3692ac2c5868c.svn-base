@@ -1,0 +1,10 @@
+package com.soft.daoimpl;
+
+
+import com.soft.dao.BeijianDAO;
+
+import com.soft.util.BaseDAOImpl;
+
+public class BeijainDAOImpl extends BaseDAOImpl<BeiJian> implements BeijianDAO {
+
+}

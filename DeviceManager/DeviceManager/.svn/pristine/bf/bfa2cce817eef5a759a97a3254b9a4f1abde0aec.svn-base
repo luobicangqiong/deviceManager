@@ -1,0 +1,9 @@
+package com.soft.test;
+
+import com.soft.model.Manager;
+import com.soft.util.BaseDAOImpl;
+
+public class ManagerDAOImpl extends BaseDAOImpl<Manager> implements
+		ManagerDAO {
+
+}

@@ -1,0 +1,164 @@
+package com.soft.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.Custom;
+import com.soft.service.KeFuGuanLiService;
+
+
+public class KeFuGuanLiAction extends ActionSupport implements ServletRequestAware,ServletResponseAware {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public KeFuGuanLiService getKeFuGuanLiService() {
+		return keFuGuanLiService;
+	}
+	public void setKeFuGuanLiService(KeFuGuanLiService keFuGuanLiService) {
+		this.keFuGuanLiService = keFuGuanLiService;
+	}
+	public Custom getCustom() {
+		return custom;
+	}
+	public void setCustom(Custom custom) {
+		this.custom = custom;
+	}
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private  KeFuGuanLiService keFuGuanLiService;
+	private Custom custom;
+	
+	public void addCustom(Custom custom){
+		boolean flag=keFuGuanLiService.addCustom(custom);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("addok");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+public void deleteCustom(){
+	keFuGuanLiService.deleteCustom(custom);
+		
+	response.setContentType("text/html;charset=UTF-8");
+	try {
+		response.getWriter().write("deleteok");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	}
+public void editCustom(){
+	keFuGuanLiService.updateCustom(custom);
+
+	response.setContentType("text/html;charset=UTF-8");
+	try {
+		response.getWriter().write("editok");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+}
+
+public String queryCustom(){
+	
+	return null;
+	
+	
+}
+public String queryAllCustom(){
+	
+	
+	
+	
+	
+//	String susername = request.getParameter("susername");
+//	String smobile = request.getParameter("smobile");
+//	
+	
+	int page = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+	
+	List customList = keFuGuanLiService.queryAll( page,  pageSize);
+//	if(modulesList.size()>0)
+//	{
+//		request.setAttribute("modulesList", modulesList);
+//	}else{
+//		request.setAttribute("modulesList", "");
+//	}
+
+	
+	
+	
+	Iterator iterator = customList.iterator();
+	JSONArray jsonArray = new JSONArray();
+	JSONObject finalObj = new JSONObject();
+	// 统计数据总行数 分页
+	finalObj.put("total", keFuGuanLiService.countAll());
+	
+	while(iterator.hasNext())
+	{
+		JSONObject obj = new JSONObject();
+		
+		Custom custom = (Custom)iterator.next();
+		obj.put("custom.customName", custom.getCustomName());
+		obj.put("custom.customIdCard", custom.getCustomIdCard());
+		obj.put("custom.customCompany", custom.getCustomCompany());
+		obj.put("custom.customAddrass", custom.getCustomAddrass());
+		obj.put("custom.customEmail", custom.getCustomEmail());
+		obj.put("custom.customMabile", custom.getCustomMabile());
+		obj.put("custom.customPost", custom.getCustomPost());
+		obj.put("custom.customTel", custom.getCustomTel());
+		jsonArray.add(obj);
+	}
+	
+	finalObj.put("rows", jsonArray);
+	//System.out.println("-----"+finalObj.toString()+"-----");
+	  response.setContentType("text/html;charset=UTF-8");
+	  PrintWriter out = null;
+	try {
+		out = response.getWriter();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}   
+	   
+	   out.println(finalObj.toString());   
+	   out.flush();   
+	   out.close();   
+	
+	return null;
+	
+	
+}
+@Override
+public void setServletResponse(HttpServletResponse arg0) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void setServletRequest(HttpServletRequest arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+}

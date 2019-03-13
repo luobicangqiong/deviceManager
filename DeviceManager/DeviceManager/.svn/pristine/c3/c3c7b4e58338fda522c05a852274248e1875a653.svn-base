@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<constant name="strutts.i18n.encoding" value="UTF-8"/>
+<package name="default" extends="struts-default">
+
+     	   <action name="keFuAction_queryAllCustom" class="keFuAction" method="queryAllCustom"></action>
+     	    <action name="keFuAction_addCustom" class="keFuAction" method="addCustom"></action>
+     	    <action name="keFuAction_deleteCustom" class="keFuAction" method="deleteCustom"></action>
+     	    
+     	    <action name="kuFangAction_addBeijian" class="kuFangAction" method="addBeijian"></action>
+     	    <action name="kuFangAction_deleteBeijian" class="kuFangAction" method="deleteBeijian"></action>
+     	    <action name="kuFangAction_editBeijian" class="kuFangAction" method="editBeijian"></action>
+     	    <action name="kuFangAction_queryBeijianAll" class="kuFangAction" method="queryBeijianAll"></action>
+  
+  
+</package>
+
+</struts>    

@@ -1,0 +1,179 @@
+package com.soft.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.model.Custom;
+import com.soft.service.KeFuGuanLiService;
+
+
+public class KeFuAction extends ActionSupport implements ServletRequestAware,ServletResponseAware {
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private  KeFuGuanLiService keFuGuanLiService;
+	public KeFuGuanLiService getKeFuGuanLiService() {
+		return keFuGuanLiService;
+	}
+	public void setKeFuGuanLiService(KeFuGuanLiService keFuGuanLiService) {
+		this.keFuGuanLiService = keFuGuanLiService;
+	}
+	private Custom custom;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public Custom getCustom() {
+		return custom;
+	}
+	public void setCustom(Custom custom) {
+		this.custom = custom;
+	}
+	
+	/*
+	 * 
+	 * 增加客户信息
+	 */
+	public void addOneCustom(){
+		boolean flag=keFuGuanLiService.addCustom(custom);
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write("修改成功");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/*
+	 * 
+	 * 删除客户信息
+	 */
+public void deleteCustom(){
+	keFuGuanLiService.deleteCustom(custom);
+		
+	response.setContentType("text/html;charset=UTF-8");
+	try {
+		response.getWriter().write("deleteok");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	}
+/*
+ * 
+ * 编辑客户信息
+ */
+public void editCustom(){
+	keFuGuanLiService.updateCustom(custom);
+
+	response.setContentType("text/html;charset=UTF-8");
+	try {
+		response.getWriter().write("editok");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+}
+/*
+ * 
+ * 查询客户信息
+ */
+public void queryCustom(){
+	
+	
+	
+	
+}
+/*
+ * 
+ * 根据条件查询客户信息并分页
+ */
+public String queryAllCustom(){
+	
+
+	int page = Integer.valueOf(request.getParameter("page")==null?"1":request.getParameter("page"));
+	int pageSize = Integer.valueOf(request.getParameter("rows")==null?"5":request.getParameter("rows"));
+	
+	List<Custom> customList = keFuGuanLiService.queryAll(page,pageSize);
+
+
+	Iterator<Custom> iterator = customList.iterator();
+	JSONArray jsonArray = new JSONArray();
+	JSONObject finalObj = new JSONObject();
+	// 统计数据总行数 分页
+	finalObj.put("total", keFuGuanLiService.countAll());
+
+	while(iterator.hasNext())
+	{
+		JSONObject obj = new JSONObject();
+		
+		Custom custom =  iterator.next();
+		obj.put("custom.customId", custom.getCustomId());
+		obj.put("custom.customName", custom.getCustomName());
+		obj.put("custom.customIdCard", custom.getCustomIdCard());
+		obj.put("custom.customCompany", custom.getCustomCompany());
+		obj.put("custom.customAddrass", custom.getCustomAddrass());
+		obj.put("custom.customEmail", custom.getCustomEmail());
+		obj.put("custom.customMabile", custom.getCustomMabile());
+		obj.put("custom.customPost", custom.getCustomPost());
+		obj.put("custom.customTel", custom.getCustomTel());
+		jsonArray.add(obj);
+	}
+	System.out.println(jsonArray.toString());
+	finalObj.put("rows", jsonArray);
+	//System.out.println("-----"+finalObj.toString()+"-----");
+	  response.setContentType("text/html;charset=UTF-8");
+	  PrintWriter out = null;
+	try {
+		out = response.getWriter();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}   
+	   
+	   out.println(finalObj.toString());   
+	   out.flush();   
+	   out.close();   
+	
+	return null;
+	
+	
+}
+/*
+ * 增加报修订单
+ * 在报修表添加数据
+ * 
+ */
+public boolean addReportRepair(){
+	
+	return false;
+	
+}
+@Override
+public void setServletResponse(HttpServletResponse response) {
+	this.response = response;
+	
+}
+@Override
+public void setServletRequest(HttpServletRequest request) {
+	this.request = request;
+	
+}
+
+}

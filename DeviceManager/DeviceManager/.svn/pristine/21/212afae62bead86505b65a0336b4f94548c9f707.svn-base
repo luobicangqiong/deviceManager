@@ -1,0 +1,81 @@
+						<!--<!-- 模态框（Modal） -->
+					<div class="modal fade edit-fenpei" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+									</button>
+									<h4 class="modal-title" id="myModalLabel">
+               请选择
+            </h4>
+								</div>
+								<div class="modal-body">
+									确定要分配此工程师吗？
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+									<button type="button" class="btn btn-primary sure-fenpei">
+										我确定
+									</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
+					<script>
+						$(function () { $('#myModal').modal({
+						      keyboard: true
+						   })});
+						   
+						   $(function(){
+						   	var rowrenwu;
+						   	var rowweixiushi;
+						   	
+						   	$(".sure-fenpei").click(
+						   		function(){
+						   			rowweixiushi=$('#db').datagrid('getSelected');
+						   			rowrenwu=$('#dg').datagrid('getSelected');
+						   	
+						   		
+						   						 $.ajax({
+
+             type: "post",
+           url: "keFuAction_deleteCustom",
+            dataType: "json",
+            data:{
+            	"custom.customName":row.customName,
+            
+            	"custom.customIdCard":row.customName,
+            	"custom.customMabile":row.customMabile,
+            	"custom.customEmail":row.customEmail,
+            	"custom.customPost":row.customPost,
+            	"custom.customTel":row.customTel,
+            	"custom.customAddrass":row.customAddrass,
+            	"custom.customCompany":row.customCompany,
+            	"custom.customId":row.customId
+            	
+            },
+
+             success: function(data){
+             	alert(data.info);
+             	
+				
+             	$("#myModal3").hide();
+             	$("#myModal2").hide();
+             	
+             	
+
+             }
+
+             
+
+    });
+						   		
+						   	});
+						   });
+						   
+
+					</script>
